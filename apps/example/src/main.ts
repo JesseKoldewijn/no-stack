@@ -1,20 +1,26 @@
-import 'reflect-metadata';
+import type { IncomingMessage, ServerResponse } from 'http';
 
-import { NestFactory } from '@nestjs/core';
+import { createExpressApp } from './create-app';
 
-import { AppModule } from './app.module';
+type ServerlessHandler = (req: IncomingMessage, res: ServerResponse) => Promise<void>;
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableShutdownHooks();
-
+async function bootstrapLocal() {
+  const app = await createExpressApp();
   const port = process.env.PORT ? Number(process.env.PORT) : 3000;
   await app.listen(port);
 }
 
-bootstrap().catch((err) => {
-  // eslint-disable-next-line no-console
-  console.error(err);
-  process.exit(1);
-});
+const handler: ServerlessHandler = async (req, res) => {
+  const app = await createExpressApp();
+  app(req, res);
+};
 
+module.exports = handler;
+
+if (require.main === module) {
+  bootstrapLocal().catch((err) => {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    process.exit(1);
+  });
+}
