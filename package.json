@@ -1,0 +1,38 @@
+{
+  "name": "nost-stack",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:unit": "turbo run test:unit",
+    "test:integration": "turbo run test:integration",
+    "test:e2e": "turbo run test:e2e"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "latest",
+    "@playwright/test": "latest",
+    "@types/node": "^26.2.0",
+    "@types/supertest": "latest",
+    "@vitest/coverage-v8": "latest",
+    "supertest": "latest",
+    "turbo": "^2.10.11",
+    "typescript": "^7.0.2",
+    "vitest": "latest"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "bun",
+      "version": "1.3.14"
+    }
+  },
+  "volta": {
+    "node": "24.5.0",
+    "bun": "1.3.14"
+  }
+}

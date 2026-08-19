@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "apps/example/dist/main.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "apps/example/dist/main.js"
+    }
+  ],
+  "functions": {
+    "apps/example/dist/main.js": {
+      "includeFiles": "apps/example/dist/client/assets/**/*"
+    }
+  }
+}
+

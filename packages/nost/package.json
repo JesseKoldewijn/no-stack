@@ -1,0 +1,38 @@
+{
+  "name": "@nost/framework",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "module": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run --project unit",
+    "test:integration": "vitest run --project integration"
+  },
+  "dependencies": {
+    "octane": "latest"
+  },
+  "devDependencies": {
+    "@nestjs/common": "latest",
+    "@nestjs/core": "latest",
+    "@nestjs/testing": "latest",
+    "@octanejs/vite-plugin": "latest",
+    "reflect-metadata": "latest",
+    "vitest": "latest"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "*"
+  }
+}
+

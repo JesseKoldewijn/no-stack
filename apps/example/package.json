@@ -1,0 +1,42 @@
+{
+  "name": "example",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "bun run build:server && bun run build:client",
+    "build:server": "vite build --ssr --config vite.config.server.mjs",
+    "build:client": "vite build --config vite.config.client.mjs",
+    "dev": "bun run build:client && bun run dev:server",
+    "dev:server": "sh -c 'vite build --ssr --config vite.config.server.mjs && (vite build --ssr --config vite.config.server.mjs --watch & exec node --watch dist/main.js)'",
+    "start": "node dist/main.js",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "test": "vitest run && playwright test",
+    "test:unit": "vitest run --project unit",
+    "test:integration": "vitest run --project integration",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@nost/framework": "workspace:*",
+    "@nestjs/common": "latest",
+    "@nestjs/core": "latest",
+    "@nestjs/platform-express": "latest",
+    "@nestjs/serve-static": "latest",
+    "express": "latest",
+    "reflect-metadata": "latest",
+    "octane": "latest",
+    "@octanejs/vite-plugin": "latest"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "latest",
+    "@playwright/test": "latest",
+    "@tailwindcss/vite": "latest",
+    "@types/express": "latest",
+    "@types/supertest": "latest",
+    "supertest": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vitest": "latest"
+  }
+}
+
