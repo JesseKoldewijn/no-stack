@@ -1,20 +1,15 @@
 {
-  "version": 2,
-  "builds": [
+  "installCommand": "cd ../.. && bun install",
+  "buildCommand": "cd ../.. && bun run --cwd apps/example build",
+  "rewrites": [
     {
-      "src": "dist/main.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "dist/main.js"
+      "source": "/(.*)",
+      "destination": "/api"
     }
   ],
   "functions": {
-    "dist/main.js": {
-      "includeFiles": "dist/client/assets/**/*"
+    "api/index.js": {
+      "includeFiles": "dist/**"
     }
   }
 }

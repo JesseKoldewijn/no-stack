@@ -49,9 +49,11 @@ Integration and e2e tests require a prior build (`bun run build`). Turbo runs bu
 
 This app includes [`vercel.json`](vercel.json) that:
 
-1. Runs `dist/main.js` as a single `@vercel/node` function
-2. Routes all paths to that entry
-3. Includes the compiled client assets so `/assets/hydrate.js` and `/assets/hydrate.css` exist at runtime
+1. Rewrites all paths to [`api/index.js`](api/index.js), a thin serverless entry
+2. Delegates to the Vite-built Nest handler in `dist/main.js` (exports an Express-compatible function instead of calling `listen()` only)
+3. Bundles `dist/**` via `functions.api/index.js.includeFiles` so SSR code and `/assets/hydrate.js` + `/assets/hydrate.css` exist at runtime
+
+Run `bun run build` before deploy so `dist/` exists when Vercel packages the function.
 
 ### Recommended Vercel settings
 
