@@ -47,16 +47,17 @@ Integration and e2e tests require a prior build (`bun run build`). Turbo runs bu
 
 ## Vercel deployment (single Node app)
 
-This repo includes a root [`vercel.json`](../../vercel.json) that:
+This app includes [`vercel.json`](vercel.json) that:
 
-1. Runs `apps/example/dist/main.js` as a single `@vercel/node` function
+1. Runs `dist/main.js` as a single `@vercel/node` function
 2. Routes all paths to that entry
 3. Includes the compiled client assets so `/assets/hydrate.js` and `/assets/hydrate.css` exist at runtime
 
 ### Recommended Vercel settings
 
-- **Project root**: the monorepo root (`no-stack/`)
-- **Build command**: `bun install && bun run --cwd apps/example build`
+- **Root Directory**: `apps/example`
+- **Install Command**: `cd ../.. && bun install`
+- **Build Command**: `cd ../.. && bun run --cwd apps/example build`
 - **Output**: not required (we deploy the prebuilt `dist/` artifacts referenced by `vercel.json`)
 
 ### Important runtime paths
