@@ -51,7 +51,9 @@ This app includes [`vercel.json`](vercel.json) that:
 
 1. Runs `dist/main.js` as a single `@vercel/node` function
 2. Routes all paths to that entry
-3. Includes the compiled client assets so `/assets/hydrate.js` and `/assets/hydrate.css` exist at runtime
+3. Bundles compiled client assets via `builds[].config.includeFiles` so `/assets/hydrate.js` and `/assets/hydrate.css` exist at runtime
+
+Note: Vercel does not allow mixing legacy `builds` with top-level `functions`. Asset bundling must use `builds[].config.includeFiles` for this setup.
 
 ### Recommended Vercel settings
 
