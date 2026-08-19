@@ -1,8 +1,10 @@
 {
+  "installCommand": "cd ../.. && bun install",
+  "buildCommand": "cd ../.. && bun run --cwd apps/example build",
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/api/index.js"
+      "destination": "/api"
     }
   ],
   "functions": {
