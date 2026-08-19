@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@source "../views/**/*.tsrx";
+
+/* Enable class-based dark mode via a `.dark` class on a parent element. */
+@custom-variant dark (&:where(.dark, .dark *));
+
