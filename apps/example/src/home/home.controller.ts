@@ -1,19 +1,16 @@
 import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
 import { Response } from 'express';
 
-import { OctaneRendererService } from '@nost/framework';
-
-import { HomeApp } from '../views/HomeApp.tsrx';
+import { PageRendererService } from '../ssr/page-renderer.service';
 
 @Controller()
 export class HomeController {
-  constructor(private readonly octaneRenderer: OctaneRendererService) {}
+  constructor(private readonly pageRenderer: PageRendererService) {}
 
   @Get('/')
   async renderHome(@Res() res: Response) {
-    const html = await this.octaneRenderer.renderToHtml(HomeApp);
+    const html = await this.pageRenderer.renderUrl('/');
 
     return res.status(HttpStatus.OK).type('text/html').send(html);
   }
 }
-

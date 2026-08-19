@@ -1,14 +1,12 @@
 import { HttpStatus } from '@nestjs/common';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-
-import type { IsrCache } from '@nost/framework';
+import { describe, expect, it, vi } from 'vitest';
 
 import { HomeController } from './home.controller';
 
 describe('HomeController', () => {
-  it('renders home HTML via OctaneRendererService', async () => {
-    const renderToHtml = vi.fn().mockResolvedValue('<html><head></head><body>home</body></html>');
-    const controller = new HomeController({ renderToHtml } as never);
+  it('renders home HTML via PageRendererService', async () => {
+    const renderUrl = vi.fn().mockResolvedValue('<html><head></head><body>home</body></html>');
+    const controller = new HomeController({ renderUrl } as never);
 
     const send = vi.fn();
     const type = vi.fn().mockReturnValue({ send });
@@ -16,7 +14,7 @@ describe('HomeController', () => {
 
     await controller.renderHome(res);
 
-    expect(renderToHtml).toHaveBeenCalledOnce();
+    expect(renderUrl).toHaveBeenCalledWith('/');
     expect(res.status).toHaveBeenCalledWith(HttpStatus.OK);
     expect(type).toHaveBeenCalledWith('text/html');
     expect(send).toHaveBeenCalledWith('<html><head></head><body>home</body></html>');

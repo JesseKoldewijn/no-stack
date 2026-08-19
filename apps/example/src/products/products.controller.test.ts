@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import type { IsrCache, OctaneRendererService } from '@nost/framework';
+import type { IsrCache } from '@nost/framework';
 
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
@@ -14,12 +14,12 @@ function createResponse() {
 }
 
 describe('ProductsController', () => {
-  let renderToHtml: ReturnType<typeof vi.fn>;
+  let renderUrl: ReturnType<typeof vi.fn>;
   let isrCache: IsrCache;
   let controller: ProductsController;
 
   beforeEach(() => {
-    renderToHtml = vi.fn().mockResolvedValue('<html><head></head><body>product</body></html>');
+    renderUrl = vi.fn().mockResolvedValue('<html><head></head><body>product</body></html>');
     isrCache = {
       get: vi.fn(),
       set: vi.fn(),
@@ -28,7 +28,7 @@ describe('ProductsController', () => {
 
     controller = new ProductsController(
       new ProductsService(),
-      { renderToHtml } as unknown as OctaneRendererService,
+      { renderUrl } as never,
       isrCache,
     );
   });
@@ -39,7 +39,9 @@ describe('ProductsController', () => {
 
     await controller.renderProduct('1', res);
 
-    expect(renderToHtml).toHaveBeenCalledOnce();
+    expect(renderUrl).toHaveBeenCalledWith('/products/1', 'Product 1', {
+      productsService: expect.any(ProductsService),
+    });
     expect(isrCache.set).toHaveBeenCalledWith(
       'product-1',
       '<html><head></head><body>product</body></html>',
@@ -60,7 +62,7 @@ describe('ProductsController', () => {
 
     await controller.renderProduct('1', res);
 
-    expect(renderToHtml).not.toHaveBeenCalled();
+    expect(renderUrl).not.toHaveBeenCalled();
     expect(send).toHaveBeenCalledWith('<html><head></head><body>cached</body></html>');
   });
 
@@ -78,7 +80,7 @@ describe('ProductsController', () => {
     const { res, send } = createResponse();
     await controller.renderProduct('1', res);
 
-    expect(renderToHtml).not.toHaveBeenCalled();
+    expect(renderUrl).not.toHaveBeenCalled();
     expect(revalidateSpy).toHaveBeenCalledWith('1', 'product-1');
     expect(send).toHaveBeenCalledWith('<html><head></head><body>stale</body></html>');
   });

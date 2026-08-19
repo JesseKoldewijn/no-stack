@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 
 import { HomeController } from './home.controller';
-import { NostModule } from '@nost/framework';
+import { SsrModule } from '../ssr/ssr.module';
 
 @Module({
-  imports: [NostModule],
+  imports: [SsrModule],
   controllers: [HomeController],
 })
 export class HomeModule {}
-
