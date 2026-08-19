@@ -11,6 +11,7 @@ import { NostModule } from '@nost/framework';
 import { resolveClientAssetsPath } from '../../src/app.module';
 import { HomeModule } from '../../src/home/home.module';
 import { ProductsModule } from '../../src/products/products.module';
+import { SsrModule } from '../../src/ssr/ssr.module';
 
 describe('Example app integration', () => {
   let app: NestExpressApplication;
@@ -21,7 +22,7 @@ describe('Example app integration', () => {
     expect(readdirSync(assetsPath)).toContain('hydrate.css');
 
     const moduleRef = await Test.createTestingModule({
-      imports: [NostModule, HomeModule, ProductsModule],
+      imports: [NostModule, SsrModule, HomeModule, ProductsModule],
     }).compile();
 
     app = moduleRef.createNestApplication<NestExpressApplication>();
@@ -40,7 +41,7 @@ describe('Example app integration', () => {
     expect(response.text).toContain('<html><head>');
     expect(response.text).toContain('NOST Stack');
     expect(response.text).toContain('/assets/hydrate.css');
-    expect(response.text).toContain('data-page="home"');
+    expect(response.text).toContain('Nest-first engine for Octane SSR');
   });
 
   it('GET /products/1 returns SSR product HTML', async () => {
@@ -49,7 +50,6 @@ describe('Example app integration', () => {
     expect(response.headers['content-type']).toMatch(/text\/html/);
     expect(response.text).toContain('<html><head>');
     expect(response.text).toContain('Product 1');
-    expect(response.text).toContain('data-page="product"');
     expect(response.text).toContain('/assets/hydrate.css');
   });
 

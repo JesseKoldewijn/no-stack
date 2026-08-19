@@ -2,8 +2,8 @@ import { hydrateRoot } from 'octane';
 
 import './app.css';
 
-import { ProductPage } from '../views/ProductPage.tsrx';
-import { HomePage } from '../views/HomePage.tsrx';
+import { createAppRouter } from '../router/create-app-router';
+import { RouterProvider } from '../router/RouterProvider.tsrx';
 
 async function bootstrap() {
   const container = document.getElementById('app');
@@ -30,22 +30,13 @@ async function bootstrap() {
     document.documentElement.classList.toggle('dark', prefersDark);
   }
 
-  const productId = container.getAttribute('data-product-id');
+  const router = createAppRouter();
+  await router.load();
 
-  if (productId) {
-    // Hydration fallback: if SSR hydration seeds aren't adopted as expected,
-    // we still fetch the product so the page can render correctly.
-    const productPromise = fetch(`/products/api/${productId}`).then((r) => r.json());
-    hydrateRoot(container, ProductPage, { productId, productPromise });
-    return;
-  }
-
-  // Home route hydration (theme toggle button lives here).
-  hydrateRoot(container, HomePage);
+  hydrateRoot(container, RouterProvider, { router });
 }
 
 bootstrap().catch((err) => {
   // eslint-disable-next-line no-console
   console.error(err);
 });
-

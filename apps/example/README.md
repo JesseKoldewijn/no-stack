@@ -2,7 +2,8 @@
 
 This app is the MVP demo for the “NOST Stack” idea:
 
-- NestJS is the HTTP/router layer.
+- NestJS is the HTTP entry layer (SSR + JSON APIs).
+- TanStack Router (`@tanstack/router-core`) handles client-side navigation via a thin Octane adapter.
 - Octane renders `.tsrx` views on-demand via `octane/server` streaming.
 - ISR-style caching is implemented as an in-memory stale-while-revalidate map.
 - Tailwind CSS is compiled to a deterministic stylesheet (`/assets/hydrate.css`).
@@ -31,6 +32,7 @@ Test:
 - SSR HTML: `http://localhost:3000/products/1`
 - Stylesheet is served at: `http://localhost:3000/assets/hydrate.css`
 - Hydration bootstrap module is served at: `http://localhost:3000/assets/hydrate.js`
+- In-app links use TanStack Router client navigation (no full page reload after hydration)
 
 ## Tests
 
